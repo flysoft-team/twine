@@ -91,6 +91,9 @@ module Twine
       end
 
       def write_file(path, lang)
+        plurals_regex = /(\w+)\#\#\{(\w+)\}/
+        need_close=0
+        pre_key=""
         default_lang = nil
         if DEFAULT_LANG_CODES.has_key?(lang)
           default_lang = DEFAULT_LANG_CODES[lang]
@@ -138,13 +141,38 @@ module Twine
                   if comment && comment.length > 0
                     f.puts "\t<!-- #{comment} -->\n"
                   end
-                  f.puts "\t<string name=\"#{key}\">#{value}</string>"
+                  
+                  plu = plurals_regex.match(key)                  
+                  if plu
+                    
+                    if plu[1]!=pre_key
+                      if need_close==1
+                        f.puts "\t</plurals>\n"
+                      end
+                      f.puts "\t<plurals name=\"#{plu[1]}\">"      
+                    end
+                    
+                    f.puts "\t\t<item quantity=\"#{plu[2]}\">#{value}</item>"
+                    pre_key=plu[1]
+                    need_close=1
+                  else
+                    if need_close==1
+                      f.puts "\t</plurals>\n"
+                      need_close=0
+                    end
+                    f.puts "\t<string name=\"#{key}\">#{value}</string>"
+                    pre_key=key
+                    
+                  end                  
                 end
               end
             end
+            if need_close==1
+              f.puts "\t</plurals>\n"
+              need_close=0
+            end
           end
-
-          f.puts '</resources>'
+          f.puts '</resources>'          
         end
       end
     end
