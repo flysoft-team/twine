@@ -26,7 +26,11 @@ module Twine
         # 1a) escape strings that begin with a lone "@"
         str.sub!(/^@ /, '\\@ ')
 
-        # 2) if there is more than one substitution in a string, make sure they are numbered
+        # 2) Markdown rules
+        str.gsub!(/(\*{2})(.*?)\1/, '<i>\2</i>');
+        str.gsub!(/(\*{1})(.*?)\1/, '<b>\2</b>');
+
+        # 3) if there is more than one substitution in a string, make sure they are numbered
         substituteCount = 0
         startFound = false
         str.each_char do |c|
