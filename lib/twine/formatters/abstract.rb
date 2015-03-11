@@ -27,8 +27,8 @@ module Twine
         str.sub!(/^@ /, '\\@ ')
 
         # 2) Markdown rules
-        str.gsub!(/(\*{2})(.*?)\1/, '<b>\2</b>');
-        str.gsub!(/(\*{1})(.*?)\1/, '<i>\2</i>');
+        str.gsub!(/(^\\\*{2})(.*?)\1/, '<b>\2</b>');
+        str.gsub!(/(^\\\*{1})(.*?)\1/, '<i>\2</i>');
 
         # 3) if there is more than one substitution in a string, make sure they are numbered
         substituteCount = 0
