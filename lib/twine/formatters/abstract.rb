@@ -15,7 +15,7 @@ module Twine
 
       def iosify_substitutions(str)
         # use "@" instead of "s" for substituting strings
-        str.gsub!(/%([0-9\$]*)s/, '%\1@')
+        #str.gsub!(/%([0-9\$]*)s/, '%\1@')
 
         # Markdown escape
         str.gsub!(/(\\(\*{1,2}))(.*?)\1/, '\2\3\2')
