@@ -16,6 +16,10 @@ module Twine
       def iosify_substitutions(str)
         # use "@" instead of "s" for substituting strings
         str.gsub!(/%([0-9\$]*)s/, '%\1@')
+
+        # Markdown escape
+        str.gsub!(/(\\(\*{1,2}))(.*?)\1/, '\2\3\2')
+        
         return str
       end
 
@@ -29,6 +33,8 @@ module Twine
         # 2) Markdown rules
         str.gsub!(/(?<!\\)(\*{2})(.*?)\1/, '<b>\2</b>')
         str.gsub!(/(?<!\\)(\*{1})(.*?)\1/, '<i>\2</i>')
+
+        # Markdown escape
         str.gsub!(/(\\(\*{1,2}))(.*?)\1/, '\2\3\2')
 
         # 3) if there is more than one substitution in a string, make sure they are numbered
