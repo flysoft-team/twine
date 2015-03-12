@@ -19,7 +19,7 @@ module Twine
 
         # Markdown escape
         str.gsub!(/(\\(\*{1,2}))(.*?)\1/, '\2\3\2')
-        
+
         return str
       end
 

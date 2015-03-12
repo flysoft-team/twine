@@ -103,6 +103,7 @@ module Twine
                 value = row.translated_string_for_lang(lang, default_lang)
                 if value
                   value = value.gsub('"', '\\\\"')
+                  value = iosify_substitutions(value)
 
                   comment = row.comment
                   if comment
